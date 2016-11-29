@@ -4,26 +4,12 @@ import pandas as pd
 import numpy as np
 import datetime
 import yaml
-
+from dataframes_manager import DataFrameManager
 from pandas_datareader import data as web
 
 
 def generate_analisys(code):
-    return define_ifr(set_table(code))
-
-
-def set_table(equity):
-    end = datetime.date.today()
-    start = end - datetime.timedelta(days=30)
-
-    try:
-        table = web.DataReader(equity, "yahoo", start, end)
-        table = table[table.Volume != 0].tail(14)
-    except:
-        return False
-
-    return table
-
+    return define_ifr(DataFrameManager.set_table(code))
 
 def define_ifr(table):
     if isinstance(table, pd.core.frame.DataFrame):
